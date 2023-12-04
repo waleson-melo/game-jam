@@ -1,0 +1,90 @@
+[gd_scene load_steps=10 format=3 uid="uid://cxswpsv1x7hj1"]
+
+[ext_resource type="Script" path="res://scenes/player/scripts/player.gd" id="1_i0h5d"]
+[ext_resource type="Texture2D" uid="uid://wot4j7fjqscr" path="res://textures/tilemap-characters_packed.png" id="2_mcv4k"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_hbiy5"]
+height = 24.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cmva4"]
+atlas = ExtResource("2_mcv4k")
+region = Rect2(0, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kjxb3"]
+atlas = ExtResource("2_mcv4k")
+region = Rect2(0, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fos2p"]
+atlas = ExtResource("2_mcv4k")
+region = Rect2(24, 0, 24, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_61soi"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cmva4")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 2.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kjxb3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fos2p")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 7.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2snl5"]
+size = Vector2(28, 28)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ldb1j"]
+size = Vector2(11, 20)
+
+[node name="Player" type="CharacterBody2D"]
+collision_mask = 3
+script = ExtResource("1_i0h5d")
+up_key = "ui_up"
+left_key = "ui_left"
+down_key = "ui_down"
+right_key = "ui_right"
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+position = Vector2(0, 1)
+shape = SubResource("CapsuleShape2D_hbiy5")
+
+[node name="PlayerName" type="Label" parent="."]
+texture_filter = 1
+offset_left = -24.0
+offset_top = -37.0
+offset_right = 25.0
+offset_bottom = -14.0
+text = "Player"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AnimatedSprite" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_61soi")
+animation = &"walk"
+
+[node name="DetectPlayer" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectPlayer"]
+shape = SubResource("RectangleShape2D_2snl5")
+
+[node name="DetectPlayerPush" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectPlayerPush"]
+position = Vector2(-6, 0)
+shape = SubResource("RectangleShape2D_ldb1j")
+
+[connection signal="body_entered" from="DetectPlayer" to="." method="_on_detect_player_entered"]
+[connection signal="body_exited" from="DetectPlayer" to="." method="_on_detect_player_body_exited"]
+[connection signal="body_entered" from="DetectPlayerPush" to="." method="_on_detect_player_push_entered"]
+[connection signal="body_exited" from="DetectPlayerPush" to="." method="_on_detect_player_push_exited"]

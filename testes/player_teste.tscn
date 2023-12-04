@@ -1,0 +1,28 @@
+[gd_scene load_steps=3 format=3 uid="uid://bb7nl4xif7n83"]
+
+[ext_resource type="PackedScene" uid="uid://cxswpsv1x7hj1" path="res://scenes/player/player.tscn" id="1_4l00c"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6td6t"]
+size = Vector2(799, 20)
+
+[node name="PlayerTeste" type="Node2D"]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(332, 320)
+collision_layer = 2
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("RectangleShape2D_6td6t")
+
+[node name="Player" parent="." instance=ExtResource("1_4l00c")]
+position = Vector2(264, 115)
+player_name = "wawa"
+
+[node name="Player2" parent="." instance=ExtResource("1_4l00c")]
+position = Vector2(353, 112)
+player_name = "mika"
+up_key = "w"
+left_key = "a"
+down_key = "s"
+right_key = "d"
